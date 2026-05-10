@@ -151,8 +151,6 @@ Training reward improves from early episodes and stabilises, confirming converge
 | RL Policy v1 | 696.80 | +101.2% |
 | RL Policy v2 | 697.80 | +101.5% |
 
-Run python evaluate.py and fill in the numbers printed in the comparison table above.
-
 ### When RL Performs Better
 
 The RL policy consistently outperforms random when the student is in a low mastery state, it correctly serves easier content to build confidence rather than frustrating the student with hard questions.
