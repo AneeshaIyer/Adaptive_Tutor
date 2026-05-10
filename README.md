@@ -30,7 +30,7 @@ This project develops an RL-based adaptive tutor that learns what should be taug
 
 ### Algorithm: Q-Learning
 
-Why Q-Learning? The state space (mastery x engagement x difficulty = 3x3x3 = 27 states) is small and fully discrete, making a tabular Q-table computationally efficient, interpretable, and provably convergent — no neural network overhead needed.
+Why Q-Learning? The state space (mastery x engagement x difficulty = 3x3x3 = 27 states) is small and fully discrete, making a tabular Q-table computationally efficient, interpretable, and provably convergent, no neural network overhead needed.
 
 Q-update rule: Q(s,a) <- Q(s,a) + alpha [ r + gamma * max Q(s',a') - Q(s,a) ]
 
