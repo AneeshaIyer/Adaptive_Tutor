@@ -181,9 +181,9 @@ Training reward improves from early episodes and stabilises, confirming converge
 
 | Policy | Avg Reward | Improvement |
 |--------|------------|-------------|
-| Random (Baseline) | 346.37 | - |
-| RL Policy v1 | 696.80 | +101.2% |
-| RL Policy v2 | 697.80 | +101.5% |
+| Random (Baseline) | 326.55 | - |
+| RL Policy v1 | 695.25 | +112.9% |
+| RL Policy v2 | 686.40 | +110.2% |
 
 ### When RL Performs Better
 
