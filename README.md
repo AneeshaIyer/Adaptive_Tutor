@@ -199,13 +199,6 @@ v2 (faster decay, higher alpha) converges faster but is more sensitive to noisy 
 
 ---
 
-## Demo
-
-<!-- Add your video link here after recording -->
-[Watch the demo](#)
-
----
-
 ## Project Structure
 
     AdaptiveTutor/
