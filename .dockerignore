@@ -1,0 +1,6 @@
+mlruns/
+logs/
+models/
+graphs/
+__pycache__/
+.git/
