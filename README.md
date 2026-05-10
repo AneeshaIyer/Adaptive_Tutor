@@ -210,24 +210,31 @@ v2 (faster decay, higher alpha) converges faster but is more sensitive to noisy 
     ├── configs/
     │   ├── qlearning_v1.yaml
     │   └── qlearning_v2.yaml
-    ├── experiments/
     ├── graphs/
-    │   ├── reward_graph.png
-    │   └── evaluation_comparison.png
+    │   ├── evaluation_comparison.png
+    │   └── reward_graph.png
     ├── logs/
     │   ├── qlearning_v1.csv
-    │   └── qlearning_v2.csv
+    │   ├── qlearning_v2.csv
+    │   └── results.csv
     ├── models/
+    │   ├── policy_v1.pkl
     │   ├── qlearning_v1.pkl
     │   └── qlearning_v2.pkl
     ├── sim/
-    │   └── environment.py
-    ├── Dockerfile
+    │   ├── environment.py
+    │   └── student.py
     ├── .dockerignore
+    ├── .gitignore
+    ├── Dockerfile
+    ├── README.md
     ├── evaluate.py
-    ├── train.py
+    ├── mlflow.db
     ├── requirements.txt
-    └── README.md
+    ├── test_agent.py
+    ├── test_env.py
+    ├── test_student.py
+    └── train.py
 
 ---
 
