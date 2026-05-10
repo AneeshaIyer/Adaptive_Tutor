@@ -38,3 +38,7 @@ class QAgent:
     def save(self, path):
         with open(path, "wb") as f:
             pickle.dump(self.q, f)
+
+    def load(self, path):
+        with open(path, "rb") as f:
+            self.q = pickle.load(f)
