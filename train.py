@@ -4,7 +4,7 @@ import pandas as pd
 import uuid
 import os
 import yaml
-import mlflow   # ← moved here
+import mlflow   
 
 os.makedirs("models", exist_ok=True)
 os.makedirs("logs", exist_ok=True)
@@ -30,7 +30,7 @@ steps_per_episode = config["steps_per_episode"]
 run_id = str(uuid.uuid4())
 logs = []
 
-mlflow.set_experiment("adaptive_tutor")  # ← set experiment before the loop
+mlflow.set_experiment("adaptive_tutor") 
 
 with mlflow.start_run(run_name=os.path.basename(CONFIG_PATH)):
 
@@ -64,7 +64,7 @@ with mlflow.start_run(run_name=os.path.basename(CONFIG_PATH)):
             "gamma": agent.gamma
         })
 
-        mlflow.log_metric("reward", total_reward, step=ep)  # ← log per episode too
+        mlflow.log_metric("reward", total_reward, step=ep)  
 
         if ep % 50 == 0:
             print(f"Episode {ep} | Reward={total_reward} | Epsilon={agent.epsilon:.3f}")
