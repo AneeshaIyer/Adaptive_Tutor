@@ -26,6 +26,23 @@ This project develops an RL-based adaptive tutor that learns what should be taug
 
 ---
 
+## Architecture
+
+```mermaid
+flowchart TD
+    A[Student State\nmastery · engagement · difficulty] --> B[Q-Agent\nε-greedy policy]
+    B --> C[Action\nEasy/Medium/Hard Q · Hint · Remediation · Advance]
+    C --> D[AdaptiveTutorEnv]
+    D --> E[Reward Signal]
+    D --> F[Next State]
+    E --> G[Q-Table Update]
+    F --> B
+    G --> H[Save Policy .pkl]
+    H --> I[MLflow Registry]
+```
+
+---
+
 ## Reinforcement Learning Methodology
 
 ### Algorithm: Q-Learning
@@ -71,7 +88,7 @@ Example state: (1, 2, 0) means medium mastery, engaged, easy difficulty
 
 epsilon-greedy with exponential decay. Starts at epsilon = 1.0 (fully exploratory) and decays each episode: epsilon = max(epsilon x decay, epsilon_min).
 
-v1: decay = 0.995, epsilon_min = 0.05
+v1: decay = 0.995, epsilon_min = 0.05  
 v2: decay = 0.990, epsilon_min = 0.05
 
 Average reward improves and stabilises over training, confirming Q-table convergence.
@@ -85,6 +102,17 @@ models/qlearning_v2.pkl - experiment exp-qlearning-2
 
 ## MLOps Implementation
 
+### CI/CD Pipeline
+
+This repo uses GitHub Actions to automatically train and evaluate the agent on every push to `main` or `dev`. See `.github/workflows/train.yml`.
+
+### Containerization
+
+A `Dockerfile` is provided to run training in an isolated environment:
+
+    docker build -t adaptive_tutor .
+    docker run adaptive_tutor
+
 ### Git Versioning
 
 Each experiment is tagged in Git for traceability.
@@ -93,9 +121,17 @@ Each experiment is tagged in Git for traceability.
     git tag exp-qlearning-2
     git push origin --tags
 
-### Experiment Tracking
+### Experiment Tracking (MLflow)
 
-Every training run logs to logs/ as a CSV with columns: run_id, episode, reward, epsilon, alpha, gamma
+Every training run is tracked with MLflow — parameters, metrics, and artifacts are all logged automatically.
+
+To view the MLflow UI locally:
+
+    mlflow ui
+
+Then open http://localhost:5000 in your browser.
+
+Every training run also logs to `logs/` as a CSV with columns: run_id, episode, reward, epsilon, alpha, gamma
 
 logs/qlearning_v1.csv - run log for experiment v1  
 logs/qlearning_v2.csv - run log for experiment v2
@@ -108,19 +144,17 @@ Clone the repo and install dependencies:
     cd Adaptive_Tutor
     pip install -r requirements.txt
 
-Reproduce exp-qlearning-1 (seed is fixed, fully reproducible):
+Reproduce exp-qlearning-1 (fully reproducible):
 
-    python train.py --config configs/qlearning_v1.yaml
+    python train.py
 
-Reproduce exp-qlearning-2:
-
-    python train.py --config configs/qlearning_v2.yaml
+Switch to v1 config by editing `CONFIG_PATH` in `train.py` to `configs/qlearning_v1.yaml`, then run again.
 
 Evaluate and compare against baseline:
 
     python evaluate.py
 
-Results are saved to graphs/ and printed as a comparison table.
+Results are saved to `graphs/` and printed as a comparison table.
 
 ### Monitoring Plan
 
@@ -153,7 +187,7 @@ Training reward improves from early episodes and stabilises, confirming converge
 
 ### When RL Performs Better
 
-The RL policy consistently outperforms random when the student is in a low mastery state, it correctly serves easier content to build confidence rather than frustrating the student with hard questions.
+The RL policy consistently outperforms random when the student is in a low mastery state — it correctly serves easier content to build confidence rather than frustrating the student with hard questions.
 
 ### When RL Behaves Unexpectedly
 
@@ -165,9 +199,19 @@ v2 (faster decay, higher alpha) converges faster but is more sensitive to noisy 
 
 ---
 
+## Demo
+
+<!-- Add your video link here after recording -->
+[Watch the demo](#)
+
+---
+
 ## Project Structure
 
     AdaptiveTutor/
+    ├── .github/
+    │   └── workflows/
+    │       └── train.yml
     ├── agent/
     │   └── qlearning.py
     ├── configs/
@@ -185,6 +229,8 @@ v2 (faster decay, higher alpha) converges faster but is more sensitive to noisy 
     │   └── qlearning_v2.pkl
     ├── sim/
     │   └── environment.py
+    ├── Dockerfile
+    ├── .dockerignore
     ├── evaluate.py
     ├── train.py
     ├── requirements.txt
@@ -194,4 +240,4 @@ v2 (faster decay, higher alpha) converges faster but is more sensitive to noisy 
 
 ## Conclusion
 
-Adaptive Reinforcement Learning improves personalization in tutoring systems and creates a scalable path toward intelligent educational platforms. The RL policy demonstrably outperforms a random baseline, validating the approach for SDG 4 - Quality Education.
+Adaptive Reinforcement Learning improves personalization in tutoring systems and creates a scalable path toward intelligent educational platforms. The RL policy demonstrably outperforms a random baseline (+101%), validating the approach for SDG 4 - Quality Education.
