@@ -123,7 +123,7 @@ Each experiment is tagged in Git for traceability.
 
 ### Experiment Tracking (MLflow)
 
-Every training run is tracked with MLflow — parameters, metrics, and artifacts are all logged automatically.
+Every training run is tracked with MLflow - parameters, metrics, and artifacts are all logged automatically.
 
 To view the MLflow UI locally:
 
