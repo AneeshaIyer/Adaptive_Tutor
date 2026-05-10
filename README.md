@@ -14,7 +14,7 @@ The goal is to maximize learning outcomes while minimizing disengagement and fru
 
 This project supports SDG 4 by personalizing educational experiences, improving concept mastery, and making learning more adaptive for students with different abilities.
 
-"Adaptive difficulty selection ensures every student, regardless of starting level receives appropriately challenging content, directly supporting equitable access to quality education (SDG 4)."
+"Adaptive difficulty selection ensures every student, regardless of starting level, receives appropriately challenging content, directly supporting equitable access to quality education (SDG 4)."
 
 ---
 
