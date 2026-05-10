@@ -187,7 +187,7 @@ Training reward improves from early episodes and stabilises, confirming converge
 
 ### When RL Performs Better
 
-The RL policy consistently outperforms random when the student is in a low mastery state — it correctly serves easier content to build confidence rather than frustrating the student with hard questions.
+The RL policy consistently outperforms random when the student is in a low mastery state - it correctly serves easier content to build confidence rather than frustrating the student with hard questions.
 
 ### When RL Behaves Unexpectedly
 
