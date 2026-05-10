@@ -78,8 +78,8 @@ Average reward improves and stabilises over training, confirming Q-table converg
 
 ### Saved Policies
 
-models/qlearning_v1.pkl — experiment exp-qlearning-1
-models/qlearning_v2.pkl — experiment exp-qlearning-2
+models/qlearning_v1.pkl - experiment exp-qlearning-1  
+models/qlearning_v2.pkl - experiment exp-qlearning-2
 
 ---
 
@@ -97,7 +97,7 @@ Each experiment is tagged in Git for traceability.
 
 Every training run logs to logs/ as a CSV with columns: run_id, episode, reward, epsilon, alpha, gamma
 
-logs/qlearning_v1.csv - run log for experiment v1
+logs/qlearning_v1.csv - run log for experiment v1  
 logs/qlearning_v2.csv - run log for experiment v2
 
 ### How to Reproduce
@@ -147,7 +147,7 @@ Training reward improves from early episodes and stabilises, confirming converge
 
 | Policy | Avg Reward | Improvement |
 |--------|------------|-------------|
-| Random (Baseline) | 346.37 | — |
+| Random (Baseline) | 346.37 | - |
 | RL Policy v1 | 696.80 | +101.2% |
 | RL Policy v2 | 697.80 | +101.5% |
 
