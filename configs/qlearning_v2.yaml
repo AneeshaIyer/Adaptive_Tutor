@@ -1,0 +1,10 @@
+episodes: 700
+
+alpha: 0.2
+gamma: 0.99
+
+epsilon: 1.0
+epsilon_decay: 0.990
+epsilon_min: 0.02
+
+steps_per_episode: 60
