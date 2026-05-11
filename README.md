@@ -29,18 +29,17 @@ This project develops an RL-based adaptive tutor that learns what should be taug
 ## Architecture
 
 ```mermaid
-flowchart TD
-    A[Student State\nmastery · engagement · difficulty] --> B[Q-Agent\nε-greedy policy]
-    B --> C[Action\nEasy/Medium/Hard Q · Hint · Remediation · Advance]
-    C --> D[AdaptiveTutorEnv]
-    D --> E[Reward Signal]
-    D --> F[Next State]
-    E --> G[Q-Table Update]
-    F --> B
-    G --> H[Save Policy .pkl]
-    H --> I[MLflow Registry]
+    flowchart TD
+        A[Student State mastery · engagement · difficulty] --> B[Q-Agent e-greedy policy]
+        B --> C[Action Easy/Medium/Hard Q · Hint · Remediation · Advance]
+        C --> D[AdaptiveTutorEnv]
+        D --> E[Reward Signal]
+        D --> F[Next State]
+        E --> G[Q-Table Update]
+        F --> B
+        G --> H[Save Policy .pkl]
+        H --> I[MLflow Registry]
 ```
-
 ---
 
 ## Reinforcement Learning Methodology
@@ -78,18 +77,20 @@ Example state: (1, 2, 0) means medium mastery, engaged, easy difficulty
 
 | Event | Reward |
 |-------|--------|
-| Correct answer | +1.0 |
-| Mastery increase | +0.5 |
-| Engagement increase | +0.3 |
-| Repeated mistakes | -0.5 |
-| Disengagement | -0.3 |
+| Correct answer | +10 |
+| High mastery reached | +15 |
+| Disengagement | -20 |
+| Wrong answer | -5 |
+| Hint given | +5 |
+| Remediation | +8 |
+| Advance topic | +12 |
 
 ### Exploration Strategy
 
 epsilon-greedy with exponential decay. Starts at epsilon = 1.0 (fully exploratory) and decays each episode: epsilon = max(epsilon x decay, epsilon_min).
 
 v1: decay = 0.995, epsilon_min = 0.05  
-v2: decay = 0.990, epsilon_min = 0.05
+v2: decay = 0.990, epsilon_min = 0.02
 
 Average reward improves and stabilises over training, confirming Q-table convergence.
 
@@ -104,11 +105,11 @@ models/qlearning_v2.pkl - experiment exp-qlearning-2
 
 ### CI/CD Pipeline
 
-This repo uses GitHub Actions to automatically train and evaluate the agent on every push to `main` or `dev`. See `.github/workflows/train.yml`.
+This repo uses GitHub Actions to automatically train and evaluate the agent on every push to main or dev. See .github/workflows/train.yml.
 
 ### Containerization
 
-A `Dockerfile` is provided to run training in an isolated environment:
+A Dockerfile is provided to run training in an isolated environment:
 
     docker build -t adaptive_tutor .
     docker run adaptive_tutor
@@ -131,7 +132,7 @@ To view the MLflow UI locally:
 
 Then open http://localhost:5000 in your browser.
 
-Every training run also logs to `logs/` as a CSV with columns: run_id, episode, reward, epsilon, alpha, gamma
+Every training run also logs to logs/ as a CSV with columns: run_id, episode, reward, epsilon, alpha, gamma
 
 logs/qlearning_v1.csv - run log for experiment v1  
 logs/qlearning_v2.csv - run log for experiment v2
@@ -148,13 +149,17 @@ Reproduce exp-qlearning-1 (fully reproducible):
 
     python train.py
 
-Switch to v1 config by editing `CONFIG_PATH` in `train.py` to `configs/qlearning_v1.yaml`, then run again.
+Switch to v1 config by editing CONFIG_PATH in train.py to configs/qlearning_v1.yaml, then run again.
 
 Evaluate and compare against baseline:
 
     python evaluate.py
 
-Results are saved to `graphs/` and printed as a comparison table.
+Run the live student session demo:
+
+    python demo.py
+
+Results are saved to graphs/ and printed as a comparison table.
 
 ### Monitoring Plan
 
@@ -199,6 +204,40 @@ v2 (faster decay, higher alpha) converges faster but is more sensitive to noisy 
 
 ---
 
+## Demo
+
+The demo.py script provides a live step-by-step walkthrough of the trained RL policy making decisions for a simulated student. It shows exactly what action the agent picks at each step, whether the student answered correctly, and how mastery and engagement change in real time.
+
+Run it with:
+
+    python demo.py
+
+Example output:
+
+    ============================================================
+      STUDENT SESSION 1
+    ============================================================
+      Starting state:
+        Mastery    : Medium
+        Engagement : Engaged
+        Difficulty : Medium
+    ────────────────────────────────────────────────────────────
+      Step  1
+        State      : mastery=Medium, engagement=Engaged, difficulty=Medium
+        Agent picks: Hard Question
+        Outcome    : ✓ Correct  |  reward=+10.0
+        New state  : mastery=High ↑, engagement=Engaged
+    ────────────────────────────────────────────────────────────
+      Step  2
+        State      : mastery=High, engagement=Engaged, difficulty=Hard
+        Agent picks: Advance Topic
+        Outcome    : ✓ Correct  |  reward=+12.0
+        New state  : mastery=High, engagement=Engaged
+
+The agent learns to push engaged high-mastery students with harder content and advance topics, while serving easier questions and remediation to struggling or disengaged students.
+
+---
+
 ## Project Structure
 
     AdaptiveTutor/
@@ -218,7 +257,6 @@ v2 (faster decay, higher alpha) converges faster but is more sensitive to noisy 
     │   ├── qlearning_v2.csv
     │   └── results.csv
     ├── models/
-    │   ├── policy_v1.pkl
     │   ├── qlearning_v1.pkl
     │   └── qlearning_v2.pkl
     ├── sim/
@@ -228,6 +266,7 @@ v2 (faster decay, higher alpha) converges faster but is more sensitive to noisy 
     ├── .gitignore
     ├── Dockerfile
     ├── README.md
+    ├── demo.py
     ├── evaluate.py
     ├── mlflow.db
     ├── requirements.txt
